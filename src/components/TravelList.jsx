@@ -1,5 +1,6 @@
 import travelPlansData from "../assets/travel-plans.json";
 import "./TravelList.css";
+import { useState } from "react";
 
 
 function getCostLabel(cost) {
@@ -14,9 +15,17 @@ function getCostLabel(cost) {
 
 
 function TravelList() {
+
+    const [travelPlans, setTravelPlans] = useState(travelPlansData);
+
+   const handleDelete = (id) => {
+  setTravelPlans(travelPlans.filter((travelPlan) => travelPlan.id !== id));
+};
+
+
   return (
     <div>
-      {travelPlansData.map((travelPlan) => {
+      {travelPlans.map((travelPlan) => {
         return (
           <div className="travel-card" key={travelPlan.id}>
             <img src={travelPlan.image} alt={travelPlan.destination} />
@@ -31,6 +40,7 @@ function TravelList() {
               <div className="label">{getCostLabel(travelPlan.totalCost)}</div>
               {travelPlan.allInclusive && <div className="label">All-Inclusive</div>}
             </div>
+            <button onClick={() => handleDelete(travelPlan.id)}>Delete</button>
           </div>
         );
       })}
